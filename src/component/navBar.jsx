@@ -25,7 +25,8 @@ import archivadores from "../assets/productos/archivadores.jpg"
 
 
 function Navbar({pagina}) {
-  const categories = pagina != "usuario" ? [
+  const categories = 
+  pagina == "inicio" ? [
     {
       name: "Impresión",
       items: [
@@ -75,9 +76,7 @@ function Navbar({pagina}) {
         { name: "Backdrops", img: backdropsImg }
       ]
     }
-  ] 
-    : pagina == "usuario" ? // SI NO LA PAGINA NO ES INICIO
-  [
+  ] : pagina == "usuario" ? [ // SI LA PAGINA ES USUARIO
     {
       name: "Consultas Recientes",
       url: "/consultas"
@@ -98,10 +97,24 @@ function Navbar({pagina}) {
       name: "Historial de Compras",
       url: "/historial_compra"
     }
-  ] : 
-  [
-    
-  ];
+  ] : pagina == "admin" ? [ // SI LA PAGINA ES ADMIN
+    {
+      name: "Pedidos Recientes",
+      url: "/pedidos_recientes"
+    },
+    {
+      name: "Pedidos Aprobados/Cancelados",
+      url: "/pedidos_estado"
+    },
+    {
+      name: "Datos del Mes",
+      url: "/datos_mes"
+    },
+    {
+      name: "Historial de los Clientes",
+      url: "/historial_cliente"
+    }
+  ] : "";
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
@@ -136,7 +149,7 @@ function Navbar({pagina}) {
           {categories.map((category, index) => (
             <div key={index} className="group flex-1 relative">
               
-              {pagina === "usuario" && (
+              {pagina !== "inicio" && (
                 <Link to={category.url}>
                   <button className="w-full px-4 py-3 text-gray-800 hover:bg-gray-200 transition-colors duration-200 font-medium text-center border-r border-black last:border-r-0 cursor-pointer">
                   {category.name}
@@ -144,13 +157,13 @@ function Navbar({pagina}) {
                 </Link>
               )}
 
-              {pagina !== "usuario" && (
+              {pagina === "inicio" && (
                 <button className="w-full px-4 py-3 text-gray-800 hover:bg-gray-200 transition-colors duration-200 font-medium text-center border-r border-black last:border-r-0 cursor-pointer">
                   {category.name}
                 </button>  
               )}
 
-              {pagina !== "usuario" && (
+              {pagina === "inicio" && (
               <div className={`
                 absolute top-full bg-white border border-black shadow-lg 
                 hidden group-hover:flex flex-nowrap py-2 z-50

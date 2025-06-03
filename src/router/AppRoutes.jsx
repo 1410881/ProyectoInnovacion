@@ -25,13 +25,19 @@ import TalonariosPersonalizados from '../formproducts/papeleria/talonarios'
 import LibretasActas from '../formproducts/papeleria/libretasdeaactas'
 import BlocksPersonalizados from '../formproducts/papeleria/blocks'
 import FormulariosContinuos from '../formproducts/papeleria/formularioscontinuos'
+
 //USUARIOS --
-import Usuario from '../component/usuario'
 import ComprasProcesos from '../component/userOptions/compras_en_procesos/procesos'
 import ConsultasRecientes from '../component/userOptions/consultas_recientes/consultas'
 import ComprasEstado from '../component/userOptions/compras_canceladas_en_espera/comprasEstado'
 import HistorialCompra from '../component/userOptions/historial_de_compras/historial'
 import TableroDatos from '../component/userOptions/tablero_de_datos/tablero'
+
+//ADMINISTRADOR --
+import PedidosRecientes from '../component/adminOptions/pedidos_recientes/pedidos'
+import PedidosEstado from '../component/adminOptions/pedidos_aprobados_cancelados/pedidosEstado'
+import HistorialClientes from '../component/adminOptions/historial_de_clientes/historial'
+import DatosMes from '../component/adminOptions/dato_del_mes/dato'
 
 export default function () {
   return (
@@ -62,12 +68,18 @@ export default function () {
             <Route path='/formularios-continuos' element={<Layout><FormulariosContinuos/></Layout>}/>
 
             {/* USUARIOS ---------------------------------------------------------------------------- */}
-            <Route path='/usuario' element={<Layout tipo_layout={"usuario"}><Usuario/></Layout>}/>
             <Route path='/procesos' element={<Layout tipo_layout={"usuario"}><ComprasProcesos/></Layout>}/>
             <Route path='/consultas' element={<Layout tipo_layout={"usuario"}><ConsultasRecientes/></Layout>}/>
             <Route path='/compras_estado' element={<Layout tipo_layout={"usuario"}><ComprasEstado/></Layout>}/>
             <Route path='/historial_compra' element={<Layout tipo_layout={"usuario"}><HistorialCompra/></Layout>}/>
             <Route path='/tablero_datos' element={<Layout tipo_layout={"usuario"}><TableroDatos/></Layout>}/>
+
+            {/* ADMINISTRADOR ---------------------------------------------------------------------------- */}
+            <Route path='/pedidos_recientes' element={<Layout tipo_layout={"admin"}><PedidosRecientes/></Layout>}/>
+            <Route path='/pedidos_estado' element={<Layout tipo_layout={"admin"}><PedidosEstado/></Layout>}/>
+            <Route path='/historial_cliente' element={<Layout tipo_layout={"admin"}><HistorialClientes/></Layout>}/>
+            <Route path='/datos_mes' element={<Layout tipo_layout={"admin"}><DatosMes/></Layout>}/>
+
         </Routes>
     </Suspense>
   )

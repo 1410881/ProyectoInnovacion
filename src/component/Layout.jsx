@@ -25,17 +25,19 @@ export default function Layout({children, tipo_layout}) {
         }
     }
 
+    console.log(tipo_layout)
   return (
     <div className='bg-gray-100 relative'>
-        <Navbar pagina={ !tipo_layout ? "inicio" : "usuario"} />
+
+        <Navbar pagina={ 
+            !tipo_layout ? "inicio" 
+            : (tipo_layout == "usuario" ? "usuario"
+                : "admin")} />
+
         <main className='w-full min-h-screen'>
                 {children}
         </main>
        
-
-
-
-
     </div>
   )
 }

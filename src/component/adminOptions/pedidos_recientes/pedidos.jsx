@@ -1,12 +1,10 @@
+import UsuarioItem from '../../items/item_usuario';
+
 const PedidosRecientes = () => {
 
-    //FUNCION DE LOS BOTONES -----
+  //FUNCION DE LOS BOTONES -----
   const handleCancelarPedido = (nombre) => {
     console.log(`Cancelar pedido de ${nombre}`);
-  };
-
-  const handleRealizarCambios = (nombre) => {
-    console.log(`Realizar cambios para ${nombre}`);
   };
 
   const handleVerDetalles = (nombre) => {
