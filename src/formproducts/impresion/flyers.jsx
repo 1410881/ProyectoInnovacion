@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useCart } from '../../js/CartContext';
 import flyerBaseImg from "../../assets/productos/flyers.jpg";
 import muestra1 from "../../assets/productos/flyers.jpg";
 import muestra2 from "../../assets/productos/flyers.jpg";
@@ -36,6 +37,7 @@ const OPCIONES_FLYERS = {
 
 const FlyersPersonalizados = () => {
   const fileInputRef = useRef(null);
+  const { addToCart } = useCart(); // <-- Importante
   const [cantidad, setCantidad] = useState(100);
   const [imagenPrincipal, setImagenPrincipal] = useState(flyerBaseImg);
   const [isChangingImage, setIsChangingImage] = useState(false);
@@ -670,12 +672,31 @@ const FlyersPersonalizados = () => {
                     alert('Por favor ingresa las medidas personalizadas');
                     return;
                   }
-                  
                   if (!configuracion.diseño.archivo && !configuracion.diseño.opcionesEspeciales.includes('Diseño incluido')) {
                     alert('Debes subir un diseño o seleccionar el servicio de diseño incluido');
                     return;
                   }
-                  
+
+                  // --- NUEVO: Agregar al carrito con personalización ---
+                  addToCart({
+                    producto_id: 2, // Usa el ID real del producto en tu base de datos
+                    id: `flyer-${Date.now()}`, // ID único para el frontend
+                    nombre: producto.nombre,
+                    imagen: producto.imagen,
+                    cantidad: cantidad,
+                    minimo: producto.cantidadMinima,
+                    precioUnitario: parseFloat(producto.precioBase), // Puedes ajustar según la personalización
+                    precioTotal: parseFloat(calcularPrecioTotal()),
+                    personalizacion: {
+                      ...configuracion,
+                      medidaPersonalizada: medidaPersonalizada
+                    },
+                    extras: configuracion.diseño.opcionesEspeciales.map(opcion => ({
+                      concepto: opcion,
+                      precio: producto.opcionesEspeciales[opcion]
+                    }))
+                  });
+
                   alert(`¡Pedido agregado al carrito!\n\nDetalles:\n- ${cantidad} flyers ${configuracion.papel}\n- Tamaño: ${configuracion.tamaño}${configuracion.tamaño === 'Personalizado' ? ` (${medidaPersonalizada.ancho}x${medidaPersonalizada.alto}mm)` : ''}\n- Impresión: ${configuracion.color}\n\nTotal: S/${calcularPrecioTotal()}`);
                 }}
                 className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-lg font-bold hover:shadow-lg transition-all"

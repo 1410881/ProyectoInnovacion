@@ -30,10 +30,6 @@ export default function Layout({children}) {
         <main className='w-full min-h-screen'>
                 {children}
         </main>
-       
-
-
-
 
     </div>
   )

@@ -3,6 +3,7 @@ import { BrowserRouter, createBrowserRouter, RouterProvider } from "react-router
 import React, { StrictMode } from 'react';
 import { CartProvider } from './js/CartContext';
 import ReactDOM from 'react-dom/client';
+import { UserProvider } from "./js/UserContext";
 
 import AppRoutes from './router/AppRoutes';
 
@@ -42,9 +43,11 @@ import AppRoutes from './router/AppRoutes';
 ReactDOM.createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <CartProvider>
-        <AppRoutes />
-      </CartProvider>
+      <UserProvider>
+        <CartProvider>
+          <AppRoutes />
+        </CartProvider>
+      </UserProvider>
     </BrowserRouter>
   </StrictMode>
 );

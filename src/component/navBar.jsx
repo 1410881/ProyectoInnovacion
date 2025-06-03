@@ -1,5 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../js/UserContext";
 import logo from "../assets/logo.PNG";
 
 import tarjetasImg from "../assets/productos/tarjetas.jpg";
@@ -23,8 +24,23 @@ import backdropsImg from "../assets/productos/backdrops.jpg";
 import archivadores from "../assets/productos/archivadores.jpg"
 
 
-
 function Navbar() {
+  const { user, setUser } = useUser();
+  const navigate = useNavigate();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("user_name");
+    localStorage.removeItem("user_role");
+    localStorage.removeItem("cart");
+    setUser(null);
+    setDropdownOpen(false);
+    navigate("/login");
+  };
+
   const categories = [
     {
       name: "Impresión",
@@ -80,19 +96,53 @@ function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center border-b border-black">
-        <Link to="/paginainicial">
+        <Link to="/">
           <img src={logo} alt="Logo Imprenta" className="h-12" />
         </Link>
 
-        <div className="flex space-x-8">
-          <Link to="/login" className="text-gray-700 hover:text-blue-600 transition">
-            <div className="flex flex-col items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-              <span className="text-xs font-medium">Acceder</span>
-            </div>
-          </Link>
+        <div className="flex space-x-8 items-center">
+          {/* Usuario logueado: igual diseño que "Acceder" */}
+          <div className="relative" ref={dropdownRef}>
+            {user ? (
+              <>
+                <Link to="/personal" className="text-gray-700 hover:text-blue-600 transition">
+                  <div className="flex flex-col items-center bg-white rounded-lg px-3 py-1" style={{ minWidth: 60 }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mb-1 text-purple-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    <span className="text-xs font-medium text-purple-700">{user.name}</span>
+                  </div>
+                </Link>
+                {/* Botón de cerrar sesión visible */}
+                <button
+                  onClick={handleLogout}
+                  className="ml-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            ) : (
+              <Link to="/login" className="text-gray-700 hover:text-blue-600 transition">
+                <div className="flex flex-col items-center bg-white rounded-lg px-3 py-1" style={{ minWidth: 60 }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mb-1 text-purple-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  <span className="text-xs font-medium text-purple-700">Acceder</span>
+                </div>
+              </Link>
+            )}
+            {/* Dropdown solo si está logueado */}
+            {dropdownOpen && user && (
+              <div className="absolute right-0 mt-2 w-36 !bg-white border border-indigo-400 rounded shadow-lg z-50" style={{ backgroundColor: "#fff" }}>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-purple-700 font-semibold"
+                >
+                  Cerrar sesión
+                </button>
+              </div>
+            )}
+          </div>
 
           <Link to="/carrito" className="text-gray-700 hover:text-blue-600 transition">
             <div className="flex flex-col items-center">
@@ -126,9 +176,9 @@ function Navbar() {
                       to={`/${item.name.toLowerCase().replace(/\s+/g, '-')}`}
                       className="flex flex-col items-center p-2 border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all"
                     >
-                      <img 
-                        src={item.img} 
-                        alt={item.name} 
+                      <img
+                        src={item.img}
+                        alt={item.name}
                         className="w-20 h-20 object-contain mb-2"
                       />
                       <span className="text-sm font-medium text-gray-800 px-4 text-center">{item.name}</span>

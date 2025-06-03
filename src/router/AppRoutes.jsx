@@ -25,35 +25,55 @@ import TalonariosPersonalizados from '../formproducts/papeleria/talonarios'
 import LibretasActas from '../formproducts/papeleria/libretasdeaactas'
 import BlocksPersonalizados from '../formproducts/papeleria/blocks'
 import FormulariosContinuos from '../formproducts/papeleria/formularioscontinuos'
+import Personal from '../interfasuser/Personal'
+import AdminPanel from '../interfasaadmi/AdminPanel'
+import ProtectedRoute from "./ProtectedRoute";
+
 
 export default function () {
   return (
     <Suspense fallback={<div>Loading</div>}>
-        <Routes >
-            <Route path='/' element={<Layout><PaginaPrincipal/></Layout>}/>  
-            <Route path='/login' element={<Layout><Login/></Layout>}/>  
-            <Route path='/register' element={<Layout><Register/></Layout>}/>  
-            <Route path='/carrito' element={<Layout><CarritoCompras/></Layout>}/>  
-            <Route path='/tarjetas' element={<Layout><Tarjetas/></Layout>}/>  
-            <Route path='/etiquetas' element={<Layout><Etiquetas/></Layout>}/>  
-            <Route path='/bolsas' element={<Layout><Bolsa/></Layout>}/>  
-            <Route path='/cintas' element={<Layout><Cintas/></Layout>}/>  
-            <Route path='/cajas' element={<Layout><Cajas/></Layout>}/>  
-            <Route path='/burbujas' element={<Layout><BurbujasEmbalaje/></Layout>}/>  
-            <Route path='/libretas' element={<Layout><LibretasPersonalizadas/></Layout>}/>  
-            <Route path='/archivadores' element={<Layout><ArchivadoresPersonalizados/></Layout>}/>  
-            <Route path='/invitaciones' element={<Layout><InvitacionesPersonalizadas/></Layout>}/>
-            <Route path='/banners' element={<Layout><BannersPersonalizados/></Layout>}/>  
-            <Route path='/backdrops' element={<Layout><BackdropsPersonalizados/></Layout>}/> 
-            <Route path='/llaveros' element={<Layout><LlaverosPersonalizados/></Layout>}/> 
-            <Route path='/tazas' element={<Layout><TazasPersonalizadas/></Layout>}/> 
-            <Route path='/flyers' element={<Layout><FlyersPersonalizados/></Layout>}/>
-            <Route path='/posters' element={<Layout><PostersPersonalizados/></Layout>}/>
-            <Route path='/talonarios' element={<Layout><TalonariosPersonalizados/></Layout>}/>
-            <Route path='/libretas-de-actas' element={<Layout><LibretasActas/></Layout>}/> 
-            <Route path='/blocks' element={<Layout><BlocksPersonalizados/></Layout>}/>
-            <Route path='/formularios-continuos' element={<Layout><FormulariosContinuos/></Layout>}/> 
-        </Routes>
+      <Routes >
+        <Route path='/' element={<Layout><PaginaPrincipal /></Layout>} />
+        <Route path='/login' element={<Layout><Login /></Layout>} />
+        <Route path='/register' element={<Layout><Register /></Layout>} />
+        <Route path='/carrito' element={<Layout><CarritoCompras /></Layout>} />
+        <Route path='/tarjetas' element={<Layout><Tarjetas /></Layout>} />
+        <Route path='/etiquetas' element={<Layout><Etiquetas /></Layout>} />
+        <Route path='/bolsas' element={<Layout><Bolsa /></Layout>} />
+        <Route path='/cintas' element={<Layout><Cintas /></Layout>} />
+        <Route path='/cajas' element={<Layout><Cajas /></Layout>} />
+        <Route path='/burbujas' element={<Layout><BurbujasEmbalaje /></Layout>} />
+        <Route path='/libretas' element={<Layout><LibretasPersonalizadas /></Layout>} />
+        <Route path='/archivadores' element={<Layout><ArchivadoresPersonalizados /></Layout>} />
+        <Route path='/invitaciones' element={<Layout><InvitacionesPersonalizadas /></Layout>} />
+        <Route path='/banners' element={<Layout><BannersPersonalizados /></Layout>} />
+        <Route path='/backdrops' element={<Layout><BackdropsPersonalizados /></Layout>} />
+        <Route path='/llaveros' element={<Layout><LlaverosPersonalizados /></Layout>} />
+        <Route path='/tazas' element={<Layout><TazasPersonalizadas /></Layout>} />
+        <Route path='/flyers' element={<Layout><FlyersPersonalizados /></Layout>} />
+        <Route path='/posters' element={<Layout><PostersPersonalizados /></Layout>} />
+        <Route path='/talonarios' element={<Layout><TalonariosPersonalizados /></Layout>} />
+        <Route path='/libretas-de-actas' element={<Layout><LibretasActas /></Layout>} />
+        <Route path='/blocks' element={<Layout><BlocksPersonalizados /></Layout>} />
+        <Route path='/formularios-continuos' element={<Layout><FormulariosContinuos /></Layout>} />
+        <Route
+          path='/personal'
+          element={
+            <ProtectedRoute requiredRole="user">
+              <Layout><Personal /></Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/admin'
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <Layout><AdminPanel /></Layout>
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </Suspense>
   )
 }
