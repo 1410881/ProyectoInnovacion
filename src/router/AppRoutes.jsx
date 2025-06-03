@@ -25,6 +25,13 @@ import TalonariosPersonalizados from '../formproducts/papeleria/talonarios'
 import LibretasActas from '../formproducts/papeleria/libretasdeaactas'
 import BlocksPersonalizados from '../formproducts/papeleria/blocks'
 import FormulariosContinuos from '../formproducts/papeleria/formularioscontinuos'
+//USUARIOS --
+import Usuario from '../component/usuario'
+import ComprasProcesos from '../component/userOptions/compras_en_procesos/procesos'
+import ConsultasRecientes from '../component/userOptions/consultas_recientes/consultas'
+import ComprasEstado from '../component/userOptions/compras_canceladas_en_espera/comprasEstado'
+import HistorialCompra from '../component/userOptions/historial_de_compras/historial'
+import TableroDatos from '../component/userOptions/tablero_de_datos/tablero'
 
 export default function () {
   return (
@@ -52,7 +59,15 @@ export default function () {
             <Route path='/talonarios' element={<Layout><TalonariosPersonalizados/></Layout>}/>
             <Route path='/libretas-de-actas' element={<Layout><LibretasActas/></Layout>}/> 
             <Route path='/blocks' element={<Layout><BlocksPersonalizados/></Layout>}/>
-            <Route path='/formularios-continuos' element={<Layout><FormulariosContinuos/></Layout>}/> 
+            <Route path='/formularios-continuos' element={<Layout><FormulariosContinuos/></Layout>}/>
+
+            {/* USUARIOS ---------------------------------------------------------------------------- */}
+            <Route path='/usuario' element={<Layout tipo_layout={"usuario"}><Usuario/></Layout>}/>
+            <Route path='/procesos' element={<Layout tipo_layout={"usuario"}><ComprasProcesos/></Layout>}/>
+            <Route path='/consultas' element={<Layout tipo_layout={"usuario"}><ConsultasRecientes/></Layout>}/>
+            <Route path='/compras_estado' element={<Layout tipo_layout={"usuario"}><ComprasEstado/></Layout>}/>
+            <Route path='/historial_compra' element={<Layout tipo_layout={"usuario"}><HistorialCompra/></Layout>}/>
+            <Route path='/tablero_datos' element={<Layout tipo_layout={"usuario"}><TableroDatos/></Layout>}/>
         </Routes>
     </Suspense>
   )

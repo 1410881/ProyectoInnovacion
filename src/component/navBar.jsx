@@ -24,8 +24,8 @@ import archivadores from "../assets/productos/archivadores.jpg"
 
 
 
-function Navbar() {
-  const categories = [
+function Navbar({pagina}) {
+  const categories = pagina != "usuario" ? [
     {
       name: "Impresión",
       items: [
@@ -75,6 +75,32 @@ function Navbar() {
         { name: "Backdrops", img: backdropsImg }
       ]
     }
+  ] 
+    : pagina == "usuario" ? // SI NO LA PAGINA NO ES INICIO
+  [
+    {
+      name: "Consultas Recientes",
+      url: "/consultas"
+    },
+    {
+      name: "Compras en Proceso",
+      url: "/procesos"
+    },
+    {
+      name: "Compras Canceladas/en Espera",
+      url: "/compras_estado"
+    },
+    {
+      name: "Tablero de Datos",
+      url: "/tablero_datos"
+    },
+    {
+      name: "Historial de Compras",
+      url: "/historial_compra"
+    }
+  ] : 
+  [
+    
   ];
 
   return (
@@ -109,10 +135,22 @@ function Navbar() {
         <div className="flex relative">
           {categories.map((category, index) => (
             <div key={index} className="group flex-1 relative">
-              <button className="w-full px-4 py-3 text-gray-800 hover:bg-gray-200 transition-colors duration-200 font-medium text-center border-r border-black last:border-r-0 cursor-pointer">
-                {category.name}
-              </button>
+              
+              {pagina === "usuario" && (
+                <Link to={category.url}>
+                  <button className="w-full px-4 py-3 text-gray-800 hover:bg-gray-200 transition-colors duration-200 font-medium text-center border-r border-black last:border-r-0 cursor-pointer">
+                  {category.name}
+                  </button>  
+                </Link>
+              )}
 
+              {pagina !== "usuario" && (
+                <button className="w-full px-4 py-3 text-gray-800 hover:bg-gray-200 transition-colors duration-200 font-medium text-center border-r border-black last:border-r-0 cursor-pointer">
+                  {category.name}
+                </button>  
+              )}
+
+              {pagina !== "usuario" && (
               <div className={`
                 absolute top-full bg-white border border-black shadow-lg 
                 hidden group-hover:flex flex-nowrap py-2 z-50
@@ -136,6 +174,8 @@ function Navbar() {
                   ))}
                 </div>
               </div>
+              )}
+
             </div>
           ))}
         </div>
